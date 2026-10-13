@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { demoPrice, products } from "@/data/catalog";
+import { products } from "@/data/catalog";
 import { productImage } from "@/lib/assets";
+import { Price } from "@/components/price";
 
-export function ProductGrid() {
+export function ProductGrid({ except }: { except?: string }) {
+  const items = except ? products.filter((item) => item.sku !== except).slice(0, 4) : products;
+
   return (
     <ul className="catalog-grid">
-      {products.map((item) => (
+      {items.map((item) => (
         <li key={item.sku}>
           <Link href={`/product/${item.sku}/`} className="product-card">
             <span className="card-photo">
@@ -19,7 +22,7 @@ export function ProductGrid() {
             <span className="card-copy">
               <span className="card-name">{item.name}</span>
               <span className="card-size">{item.size}</span>
-              <span className="card-price">{demoPrice(item.priceCents)}</span>
+              <Price cents={item.priceCents} />
             </span>
           </Link>
         </li>

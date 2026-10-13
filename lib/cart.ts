@@ -29,11 +29,12 @@ export function writeCart(lines: CartLine[]): void {
   window.dispatchEvent(new Event(EVENT));
 }
 
-export function addSku(sku: string): void {
+export function addSku(sku: string, qty = 1): void {
   const lines = readCart();
   const found = lines.find((line) => line.sku === sku);
-  if (found) found.qty += 1;
-  else lines.push({ sku, qty: 1 });
+  const add = Math.max(1, Math.min(12, qty));
+  if (found) found.qty += add;
+  else lines.push({ sku, qty: add });
   writeCart(lines);
 }
 

@@ -3,23 +3,33 @@ import { productImage } from "@/lib/assets";
 import { ProductGrid } from "@/components/product-grid";
 
 export default function HomePage() {
-  const lead = products[0];
+  const cluster = products.slice(0, 5);
 
   return (
     <main className="page">
       <section className="hero">
-        <div>
+        <div className="hero-copy">
           <h1>Research peptide catalog</h1>
           <p>Eight research peptides. Prices are marked DEMO.</p>
+          <a className="btn" href="#catalog">
+            Shop the catalog
+          </a>
         </div>
-        <img
-          src={productImage(lead.sku)}
-          alt={`${lead.name} research vial, ${lead.size}`}
-          width={1000}
-          height={1250}
-        />
+        <div className="hero-stage">
+          {cluster.map((item) => (
+            <img
+              key={item.sku}
+              src={productImage(item.sku)}
+              alt=""
+              width={1000}
+              height={1250}
+            />
+          ))}
+        </div>
       </section>
-      <ProductGrid />
+      <section id="catalog" aria-label="Research peptide catalog">
+        <ProductGrid />
+      </section>
     </main>
   );
 }

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { demoPrice, products } from "@/data/catalog";
+import { products } from "@/data/catalog";
 import { productImage } from "@/lib/assets";
+import { Price } from "@/components/price";
 import { onCart, readCart, removeSku, setQty, type CartLine } from "@/lib/cart";
 
 export function useCartLines(): CartLine[] {
@@ -51,7 +52,7 @@ export function CartLines({ lines }: { lines: CartLine[] }) {
             <div>
               <p className="line-name">{item.name}</p>
               <p>{item.size}</p>
-              <p>{demoPrice(item.priceCents)}</p>
+              <Price cents={item.priceCents} />
               <div className="qty">
                 <button
                   type="button"
@@ -88,7 +89,9 @@ export function CartTotals({ lines }: { lines: CartLine[] }) {
     <div className="drawer-foot">
       <p className="subtotal">
         <span>Subtotal</span>
-        <span>{demoPrice(lineTotal(lines))}</span>
+        <span>
+          <Price cents={lineTotal(lines)} />
+        </span>
       </p>
       <Link className="btn" href="/checkout/contact/">
         Continue to checkout

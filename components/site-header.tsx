@@ -4,12 +4,13 @@ import { CartButton } from "@/components/cart-button";
 export function SiteHeader() {
   return (
     <header className="site-header">
+      <p className="announce">For laboratory research use only. Not for human consumption.</p>
       <div className="header-bar">
         <Link href="/" className="wordmark">
           Auric Cryo
         </Link>
         <nav className="header-nav" aria-label="Shop">
-          <Link href="/">Shop</Link>
+          <Link href="/#catalog">Shop</Link>
           <Link href="/about/">About</Link>
           <Link href="/research-use/">Research use</Link>
         </nav>

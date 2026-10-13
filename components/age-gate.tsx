@@ -28,6 +28,7 @@ export function AgeGate() {
   return (
     <div className="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-title">
       <div className="age-dialog">
+        <p className="age-mark">Auric Cryo</p>
         <h2 id="age-title">Adults 21 and older</h2>
         <p>This catalog is for adults 21 and older.</p>
         <button ref={buttonRef} type="button" className="btn" onClick={confirmAge}>

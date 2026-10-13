@@ -9,7 +9,7 @@ export const sans = Schibsted_Grotesk({
 
 export const wordmark = Syne({
   subsets: ["latin"],
-  weight: ["700"],
+  weight: ["600", "700", "800"],
   variable: "--font-wordmark",
   display: "swap",
 });

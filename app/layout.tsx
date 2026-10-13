@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${sans.variable} ${wordmark.variable}`}>
+    <html lang="en" className={`${sans.variable} ${wordmark.variable}`} suppressHydrationWarning>
       <body className={sans.className}>
         <Script id="age-state" strategy="beforeInteractive">
           {`try{if(sessionStorage.getItem("auric-cryo-age")==="21")document.documentElement.dataset.age="ok"}catch(e){}`}
