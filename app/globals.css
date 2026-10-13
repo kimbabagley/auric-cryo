@@ -17,6 +17,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
+  overflow-x: clip;
 }
 
 body {
@@ -211,7 +212,19 @@ a {
 .subtotal,
 .demo-total {
   font-weight: 600;
-  font-variant-numeric: tabular-nums;
+}
+
+.card-price,
+.subtotal > span:last-child,
+.demo-total > span:last-child {
+  font-variant-numeric: lining-nums proportional-nums;
+  font-feature-settings: "tnum" 0;
+}
+
+.subtotal > span:first-child,
+.demo-total > span:first-child {
+  flex: none;
+  white-space: nowrap;
 }
 
 .card-price {
@@ -475,6 +488,8 @@ form,
   position: fixed;
   inset: 0;
   z-index: 40;
+  overflow: clip;
+  max-width: 100%;
 }
 
 .scrim {
@@ -493,7 +508,9 @@ form,
   position: absolute;
   top: 0;
   right: 0;
+  box-sizing: border-box;
   width: min(400px, calc(100% - 40px));
+  max-width: calc(100% - 40px);
   height: 100%;
   background: var(--paper);
   border-left: 1px solid var(--line);
@@ -504,7 +521,7 @@ form,
 }
 
 .drawer-root.open .drawer {
-  transform: none;
+  transform: translateX(0);
 }
 
 .drawer-head,
