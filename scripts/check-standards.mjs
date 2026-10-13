@@ -35,10 +35,15 @@ const forbidden = [
   "registered llc",
 ];
 
-const allowedHex = new Set(["#f6f1e8", "#1a1814", "#8a6a2f", "#fff", "#ffffff"]);
+// Palette: white page, ink, steel accent, cool tints. Anything else fails.
+const allowedHex = new Set([
+  "#fff", "#ffffff", "#14181f", "#1f4e79", "#173d60", "#0f2a44",
+  "#586270", "#dde3ea", "#eef3f8", "#e6eef6", "#ebeff6", "#e9f1f1", "#f1f2f4",
+]);
 const demoLine = "Demo catalog. Not a live store. No orders are placed.";
 const ruoLine = "For laboratory research use only. Not for human consumption.";
 const allowedHuman = "not for human consumption.";
+const allowedPurity = "purity: see coa (not on demo)";
 
 const expected = [
   ["AC-BPC-5", "BPC-157", "5 mg", 3900],
@@ -75,8 +80,9 @@ const sourceFiles = ["app", "components", "data"].flatMap((dir) =>
 for (const path of sourceFiles) {
   const text = readFileSync(path, "utf8");
   const lower = text.toLowerCase();
+  const scrubbed = lower.split(allowedPurity).join(" ");
   for (const term of forbidden) {
-    if (lower.includes(term)) {
+    if (scrubbed.includes(term)) {
       failures.push(`${rel(path)} contains forbidden string: ${term}`);
     }
   }
@@ -102,17 +108,13 @@ function mustContain(path, sentence) {
   }
 }
 
-for (const path of [
-  "app/page.tsx",
-  "app/catalog/page.tsx",
-  "app/product/[sku]/page.tsx",
-]) {
+// Footer (in layout) and product pages carry both lines on every page.
+for (const path of ["app/layout.tsx", "app/product/[sku]/page.tsx"]) {
   mustContain(path, demoLine);
   mustContain(path, ruoLine);
 }
 
 for (const path of [
-  "app/layout.tsx",
   "app/about/page.tsx",
   "app/research-use/page.tsx",
   "app/contact/page.tsx",
@@ -121,12 +123,20 @@ for (const path of [
   mustContain(path, ruoLine);
 }
 
-const cart = readFileSync(join(root, "app/cart/page.tsx"), "utf8");
-if (!cart.includes("Checkout disabled on this demo.")) {
-  failures.push("cart is missing the disabled checkout label");
+const checkout = readFileSync(join(root, "components/checkout-flow.tsx"), "utf8");
+if (!checkout.includes("Payment is not connected on this demo.")) {
+  failures.push("checkout is missing the payment-not-connected label");
 }
-if (!cart.includes("disabled")) {
-  failures.push("cart checkout control is not disabled");
+if (!checkout.includes("No order was placed. No payment was taken.")) {
+  failures.push("checkout confirmation is missing the no-order line");
+}
+if (!/<button[^>]*\bdisabled\b/.test(checkout)) {
+  failures.push("checkout pay control is not disabled");
+}
+for (const banned of ["card number", "cardnumber", "cvc", "cvv", "cc-number", "expiry"]) {
+  if (checkout.toLowerCase().includes(banned)) {
+    failures.push(`checkout contains a card field: ${banned}`);
+  }
 }
 
 const catalog = readFileSync(join(root, "data/catalog.ts"), "utf8");
