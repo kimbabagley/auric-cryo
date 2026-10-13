@@ -448,6 +448,10 @@ button {
   background: none;
 }
 
+.search-field input::-webkit-search-cancel-button {
+  display: none;
+}
+
 .search-results {
   list-style: none;
   margin: 0;
@@ -737,6 +741,10 @@ button {
   margin-top: 14px;
 }
 
+.page-head .fine {
+  margin-top: 12px;
+}
+
 /* ---------- Categories ---------- */
 
 .cats {
@@ -1018,35 +1026,35 @@ button {
 
 .how-steps {
   list-style: none;
-  margin: 40px 0 0;
+  margin: 48px 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 40px;
 }
 
 .how-steps li {
-  background: var(--paper);
-  border-radius: 20px;
-  padding: 28px;
+  padding-top: 24px;
+  border-top: 2px solid var(--steel);
 }
 
 .how-n {
-  display: inline-grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  background: var(--steel);
-  color: var(--paper);
-  font-weight: 700;
+  display: block;
+  font-family: var(--display);
+  font-stretch: 86%;
+  font-size: 4rem;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--steel);
   font-variant-numeric: tabular-nums;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
 }
 
 .how-steps p {
   color: var(--muted);
   margin-top: 8px;
+  max-width: 34ch;
 }
 
 /* ---------- Accordion ---------- */
@@ -2410,6 +2418,26 @@ button {
     position: static;
   }
 
+  /* Phone PDP: category, name and sub-line sit above the image. */
+  .pdp-grid {
+    row-gap: 0;
+  }
+
+  .pdp-info {
+    display: contents;
+  }
+
+  .pdp-cat,
+  .pdp-info h1,
+  .pdp-sub {
+    order: -1;
+    justify-self: start;
+  }
+
+  .pdp-sub {
+    margin-bottom: 20px;
+  }
+
   .checkout .summary-collapsible {
     order: -1;
     padding: 0 20px;
@@ -2466,19 +2494,20 @@ button {
 
   .how-steps {
     grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 28px;
+    gap: 28px;
+    margin-top: 32px;
   }
 
   .how-steps li {
     display: grid;
-    grid-template-columns: 40px 1fr;
-    column-gap: 16px;
-    padding: 22px;
+    grid-template-columns: 56px 1fr;
+    column-gap: 12px;
+    padding-top: 20px;
   }
 
   .how-n {
     grid-row: span 2;
+    font-size: 3rem;
     margin-bottom: 0;
   }
 
@@ -2593,6 +2622,11 @@ button {
 
   .cat-blurb {
     font-size: 0.8125rem;
+  }
+
+  .cat-vials {
+    width: 170%;
+    bottom: -40px;
   }
 
   .card-name {
