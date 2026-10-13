@@ -4,7 +4,7 @@ Demo catalog. Not a live store. No orders are placed.
 
 For laboratory research use only. Not for human consumption.
 
-Static Next.js export for a free GitHub Pages preview. Checkout stays off. No orders are placed from this site.
+Static Next.js export for a GitHub Pages preview. Payment is not connected. No card is collected. No orders are placed from this site.
 
 ## Commands
 

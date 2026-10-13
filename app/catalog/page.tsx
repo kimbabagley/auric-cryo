@@ -1,12 +1,15 @@
-import { ProductList } from "../../components/product-list";
+import type { Metadata } from "next";
+import { ProductGrid } from "@/components/product-grid";
+
+export const metadata: Metadata = {
+  title: "Shop, Auric Cryo",
+};
 
 export default function CatalogPage() {
   return (
-    <main>
-      <h1>Catalog</h1>
-      <p>Demo catalog. Not a live store. No orders are placed.</p>
-      <p>For laboratory research use only. Not for human consumption.</p>
-      <ProductList />
+    <main className="page">
+      <h1>Shop</h1>
+      <ProductGrid />
     </main>
   );
 }

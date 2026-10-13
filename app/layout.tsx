@@ -1,8 +1,10 @@
-import type { ReactNode } from "react";
-import type { Metadata } from "next";
-import { AgeGate } from "../components/age-gate";
-import { SiteHeader } from "../components/site-header";
-import { fraunces, plex } from "../lib/fonts";
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
+import { AgeGate } from "@/components/age-gate";
+import { CartDrawer } from "@/components/cart-drawer";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { sans, wordmark } from "@/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,18 +12,26 @@ export const metadata: Metadata = {
   description: "Demo catalog. Not a live store. No orders are placed.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
-}: Readonly<{ children: ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en">
-      <body className={`${fraunces.variable} ${plex.variable}`}>
-        <div className="bar">Research use only. Not for human consumption.</div>
+    <html lang="en" className={`${sans.variable} ${wordmark.variable}`}>
+      <body className={sans.className}>
+        <Script id="age-state" strategy="beforeInteractive">
+          {`try{if(sessionStorage.getItem("auric-cryo-age")==="21")document.documentElement.dataset.age="ok"}catch(e){}`}
+        </Script>
         <SiteHeader />
         {children}
-        <p className="notice" style={{ padding: "0 1rem 2rem" }}>
-          For laboratory research use only. Not for human consumption.
-        </p>
+        <SiteFooter />
+        <CartDrawer />
         <AgeGate />
       </body>
     </html>

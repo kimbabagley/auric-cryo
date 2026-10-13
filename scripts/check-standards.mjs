@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { dirname, extname, join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -33,9 +33,15 @@ const forbidden = [
   "cryotides",
   "llc is filed",
   "registered llc",
+  "stripe",
+  "paypal",
+  "card number",
+  "cvc",
+  "cvv",
 ];
 
-const allowedHex = new Set(["#f6f1e8", "#1a1814", "#8a6a2f", "#fff", "#ffffff"]);
+const allowedHex = new Set(["#ffffff", "#fff", "#14181f", "#1f4e79", "#e6e8ec"]);
+const bannedHex = new Set(["#f6f1e8", "#8a6a2f", "#1a1814"]);
 const demoLine = "Demo catalog. Not a live store. No orders are placed.";
 const ruoLine = "For laboratory research use only. Not for human consumption.";
 const allowedHuman = "not for human consumption.";
@@ -55,11 +61,8 @@ function walk(dir) {
   const files = [];
   for (const name of readdirSync(dir)) {
     const path = join(dir, name);
-    if (statSync(path).isDirectory()) {
-      files.push(...walk(path));
-    } else {
-      files.push(path);
-    }
+    if (statSync(path).isDirectory()) files.push(...walk(path));
+    else files.push(path);
   }
   return files;
 }
@@ -68,17 +71,18 @@ function rel(path) {
   return path.slice(root.length + 1);
 }
 
-const sourceFiles = ["app", "components", "data"].flatMap((dir) =>
-  walk(join(root, dir)),
-);
+function mustContain(path, sentence) {
+  const text = readFileSync(join(root, path), "utf8");
+  if (!text.includes(sentence)) failures.push(`${path} is missing: ${sentence}`);
+}
+
+const sourceFiles = ["app", "components", "data", "lib"].flatMap((dir) => walk(join(root, dir)));
 
 for (const path of sourceFiles) {
   const text = readFileSync(path, "utf8");
   const lower = text.toLowerCase();
   for (const term of forbidden) {
-    if (lower.includes(term)) {
-      failures.push(`${rel(path)} contains forbidden string: ${term}`);
-    }
+    if (lower.includes(term)) failures.push(`${rel(path)} contains forbidden string: ${term}`);
   }
   const stripped = lower.split(allowedHuman).join(" ");
   if (stripped.includes("for human")) {
@@ -89,44 +93,27 @@ for (const path of sourceFiles) {
   }
   const hexes = text.match(/#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b/g) || [];
   for (const hex of hexes) {
-    if (!allowedHex.has(hex.toLowerCase())) {
+    const value = hex.toLowerCase();
+    if (bannedHex.has(value) || !allowedHex.has(value)) {
       failures.push(`${rel(path)} contains forbidden color ${hex}`);
     }
   }
 }
 
-function mustContain(path, sentence) {
-  const text = readFileSync(join(root, path), "utf8");
-  if (!text.includes(sentence)) {
-    failures.push(`${path} is missing: ${sentence}`);
-  }
-}
+mustContain("components/site-footer.tsx", demoLine);
+mustContain("components/site-footer.tsx", ruoLine);
+mustContain("app/product/[sku]/page.tsx", ruoLine);
+mustContain("app/page.tsx", "Research peptide catalog");
+mustContain("components/product-grid.tsx", "<img");
+mustContain("app/checkout/payment/page.tsx", "Payment is not connected on this demo.");
+mustContain("app/checkout/confirmation/page.tsx", "No order was placed. No payment was taken.");
+mustContain("lib/checkout.ts", "Demo ground. Not a real shipment.");
+mustContain("lib/checkout.ts", "Demo parcel. Not a real shipment.");
 
-for (const path of [
-  "app/page.tsx",
-  "app/catalog/page.tsx",
-  "app/product/[sku]/page.tsx",
-]) {
-  mustContain(path, demoLine);
-  mustContain(path, ruoLine);
-}
-
-for (const path of [
-  "app/layout.tsx",
-  "app/about/page.tsx",
-  "app/research-use/page.tsx",
-  "app/contact/page.tsx",
-  "app/cart/page.tsx",
-]) {
-  mustContain(path, ruoLine);
-}
-
-const cart = readFileSync(join(root, "app/cart/page.tsx"), "utf8");
-if (!cart.includes("Checkout disabled on this demo.")) {
-  failures.push("cart is missing the disabled checkout label");
-}
-if (!cart.includes("disabled")) {
-  failures.push("cart checkout control is not disabled");
+const payment = readFileSync(join(root, "app/checkout/payment/page.tsx"), "utf8");
+if (!payment.includes("disabled")) failures.push("payment control is not disabled");
+if (/card number|cvc|cvv|stripe|paypal/i.test(payment)) {
+  failures.push("payment page collects a card");
 }
 
 const catalog = readFileSync(join(root, "data/catalog.ts"), "utf8");
@@ -135,9 +122,7 @@ const names = [...catalog.matchAll(/name:\s*"([^"]+)"/g)].map((match) => match[1
 const sizes = [...catalog.matchAll(/size:\s*"([^"]+)"/g)].map((match) => match[1]);
 const prices = [...catalog.matchAll(/priceCents:\s*(\d+)/g)].map((match) => Number(match[1]));
 
-if (skus.length !== 8) {
-  failures.push(`SKU count is ${skus.length}, expected 8`);
-}
+if (skus.length !== 8) failures.push(`SKU count is ${skus.length}, expected 8`);
 
 expected.forEach((row, index) => {
   if (skus[index] !== row[0] || names[index] !== row[1] || sizes[index] !== row[2] || prices[index] !== row[3]) {
@@ -147,6 +132,16 @@ expected.forEach((row, index) => {
 
 if (!catalog.includes("Synthetic research peptide. For laboratory research use only.")) {
   failures.push("catalog is missing the one description sentence");
+}
+
+for (const sku of skus) {
+  const file = join(root, "public/products", `${sku}.png`);
+  try {
+    const size = statSync(file).size;
+    if (size < 40 * 1024) failures.push(`${sku}.png is ${size} bytes, need at least 40960`);
+  } catch {
+    failures.push(`missing product photo public/products/${sku}.png`);
+  }
 }
 
 const about = readFileSync(join(root, "app/about/page.tsx"), "utf8");
@@ -159,9 +154,7 @@ if (aboutWords < 80 || aboutWords > 120) {
 
 const pkg = readFileSync(join(root, "package.json"), "utf8").toLowerCase();
 for (const banned of ["stripe", "paypal", "supabase"]) {
-  if (pkg.includes(banned)) {
-    failures.push(`package.json contains ${banned}`);
-  }
+  if (pkg.includes(banned)) failures.push(`package.json contains ${banned}`);
 }
 
 const config = readFileSync(join(root, "next.config.ts"), "utf8");
@@ -172,15 +165,11 @@ for (const required of [
   'basePath: "/auric-cryo"',
   'assetPrefix: "/auric-cryo"',
 ]) {
-  if (!config.includes(required)) {
-    failures.push(`next.config.ts is missing ${required}`);
-  }
+  if (!config.includes(required)) failures.push(`next.config.ts is missing ${required}`);
 }
 
 if (failures.length > 0) {
-  for (const failure of failures) {
-    console.error(failure);
-  }
+  for (const failure of failures) console.error(failure);
   process.exit(1);
 }
 

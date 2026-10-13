@@ -1,15 +1,15 @@
-import { CartView } from "../../components/cart-view";
+import type { Metadata } from "next";
+import { CartView } from "@/components/cart-view";
+
+export const metadata: Metadata = {
+  title: "Cart, Auric Cryo",
+};
 
 export default function CartPage() {
   return (
-    <main>
+    <main className="page">
       <h1>Cart</h1>
-      <p>For laboratory research use only. Not for human consumption.</p>
-      <p>This cart stays in this browser. No order is placed.</p>
       <CartView />
-      <button type="button" disabled>
-        Checkout disabled on this demo.
-      </button>
     </main>
   );
 }

@@ -1,15 +1,15 @@
-import { Fraunces, IBM_Plex_Sans } from "next/font/google";
+import { Schibsted_Grotesk, Syne } from "next/font/google";
 
-export const fraunces = Fraunces({
+export const sans = Schibsted_Grotesk({
   subsets: ["latin"],
-  weight: "600",
-  variable: "--font-fraunces",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
   display: "swap",
 });
 
-export const plex = IBM_Plex_Sans({
+export const wordmark = Syne({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-plex",
+  weight: ["700"],
+  variable: "--font-wordmark",
   display: "swap",
 });

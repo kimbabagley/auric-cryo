@@ -1,26 +1,19 @@
 import Link from "next/link";
-
-const links = [
-  { href: "/catalog", label: "Catalog" },
-  { href: "/about", label: "About" },
-  { href: "/research-use", label: "Research use" },
-  { href: "/cart", label: "Cart" },
-];
+import { CartButton } from "@/components/cart-button";
 
 export function SiteHeader() {
   return (
-    <header className="header">
-      <div className="header-inner">
-        <Link className="wordmark" href="/">
+    <header className="site-header">
+      <div className="header-bar">
+        <Link href="/" className="wordmark">
           Auric Cryo
         </Link>
-        <nav className="nav" aria-label="Pages">
-          {links.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {link.label}
-            </Link>
-          ))}
+        <nav className="header-nav" aria-label="Shop">
+          <Link href="/">Shop</Link>
+          <Link href="/about/">About</Link>
+          <Link href="/research-use/">Research use</Link>
         </nav>
+        <CartButton />
       </div>
     </header>
   );
