@@ -33,6 +33,11 @@ const forbidden = [
   "cryotides",
   "llc is filed",
   "registered llc",
+  "stripe",
+  "paypal",
+  "card number",
+  "cvc",
+  "cvv",
 ];
 
 // Palette: white page, ink, steel accent, cool tints. Anything else fails.
@@ -73,7 +78,7 @@ function rel(path) {
   return path.slice(root.length + 1);
 }
 
-const sourceFiles = ["app", "components", "data"].flatMap((dir) =>
+const sourceFiles = ["app", "components", "data", "lib"].flatMap((dir) =>
   walk(join(root, dir)),
 );
 
@@ -157,6 +162,17 @@ expected.forEach((row, index) => {
 
 if (!catalog.includes("Synthetic research peptide. For laboratory research use only.")) {
   failures.push("catalog is missing the one description sentence");
+}
+
+for (const sku of skus) {
+  for (const name of [`${sku}.png`, `${sku}.webp`, `${sku}-600.webp`]) {
+    try {
+      const size = statSync(join(root, "public/products", name)).size;
+      if (size < 4 * 1024) failures.push(`${name} is ${size} bytes, too small to be a photo`);
+    } catch {
+      failures.push(`missing product image public/products/${name}`);
+    }
+  }
 }
 
 const about = readFileSync(join(root, "app/about/page.tsx"), "utf8");
