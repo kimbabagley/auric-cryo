@@ -2716,3 +2716,358 @@ button {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Tidy pass (15 edits) ---------- */
+
+:root {
+  --muted: var(--ink);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Rotating announcement bar */
+.announce {
+  background: var(--steel-3);
+  color: var(--paper);
+  height: 36px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.announce-track {
+  position: relative;
+  height: 100%;
+}
+
+.announce-track p {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  font-size: 0.8125rem;
+  color: var(--paper);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  text-align: center;
+}
+
+.announce-track p.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+/* Navy glow surface, lighter in the center */
+.glow {
+  position: relative;
+  background: var(--steel-3) !important;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.glow::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 70%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgb(230 238 246 / 0.55);
+  filter: blur(48px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.glow .vial {
+  filter: drop-shadow(0 18px 22px rgb(0 0 0 / 0.35));
+}
+
+/* Hero on navy */
+.hero-navy {
+  background: var(--steel-3);
+  color: var(--paper);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-navy::before {
+  content: "";
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  width: min(620px, 80vw);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: rgb(230 238 246 / 0.42);
+  filter: blur(90px);
+  z-index: -1;
+}
+
+.hero-navy h1,
+.hero-navy .lead,
+.hero-navy .hero-checks li,
+.hero-navy .hero-checks svg {
+  color: var(--paper);
+}
+
+.hero-navy .hero-stage,
+.hero-navy .stage-floor {
+  background: transparent !important;
+  border: 0;
+  box-shadow: none;
+}
+
+.hero-navy .stage-row .vial {
+  filter: drop-shadow(0 20px 26px rgb(0 0 0 / 0.4));
+}
+
+.hero-link {
+  color: var(--paper);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  align-self: center;
+}
+
+/* Compact CTAs */
+.btn {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 0.9375rem;
+  border-radius: 999px;
+}
+
+.btn-lg {
+  min-height: 44px;
+  padding: 0 22px;
+  font-size: 0.9375rem;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  opacity: 1;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--steel-3);
+}
+
+.btn-light {
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 44px;
+  padding: 0 22px;
+}
+
+.btn-light:hover {
+  background: var(--ice);
+}
+
+.hero-ctas {
+  align-items: center;
+  gap: 20px;
+}
+
+/* Swipe rails */
+.rail {
+  scroll-snap-type: x mandatory;
+}
+
+.rail > * {
+  scroll-snap-align: start;
+}
+
+.rail-always {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * 20px) / 4);
+  grid-template-columns: none;
+  overflow-x: auto;
+  gap: 20px;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.rail-always::-webkit-scrollbar,
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.cat .cat-name,
+.cat .cat-blurb {
+  color: var(--paper);
+}
+
+/* Product cards */
+.card-media {
+  border-radius: var(--radius);
+}
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.card-row .price {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.card-cat {
+  color: var(--ink);
+  font-size: 0.8125rem;
+  margin: 0;
+}
+
+.card-foot {
+  margin-top: 6px;
+}
+
+.quick-add {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--paper);
+  border: 0;
+}
+
+.quick-add:hover,
+.quick-add.is-done {
+  background: var(--steel-3);
+  color: var(--paper);
+}
+
+/* Product page */
+.thumb-btn {
+  border: 2px solid transparent;
+}
+
+.thumb-btn[aria-pressed="true"] {
+  border-color: var(--ink);
+}
+
+.gallery-main .gallery-badge,
+.gallery-main .gallery-hint {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.coa-card,
+.coa-card p {
+  color: var(--paper);
+}
+
+.thumb-coa {
+  color: var(--paper);
+}
+
+.fineprint {
+  margin-top: 12px;
+}
+
+/* No decorative dividers */
+.header,
+.accordion details,
+.accordion details:first-child,
+.specs div,
+.footer-legal,
+.footer-top {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+
+.accordion details {
+  background: var(--ice);
+  border-radius: var(--radius-sm);
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+
+.specs div {
+  padding: 6px 0;
+}
+
+/* Age gate: opaque navy, centered */
+.gate {
+  background: var(--steel-3);
+  backdrop-filter: none;
+  display: grid;
+  place-items: center;
+}
+
+.gate-card {
+  background: var(--paper);
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.35);
+}
+
+@media (max-width: 900px) {
+  .rail-always {
+    grid-auto-columns: 62%;
+  }
+
+  .cats.rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    grid-template-columns: none;
+    overflow-x: auto;
+    gap: 14px;
+    scrollbar-width: none;
+  }
+
+  .hero-ctas {
+    flex-direction: row;
+  }
+}
+
+.vial,
+.cat-vials img,
+.glow .vial,
+.hero-navy .vial {
+  mix-blend-mode: normal;
+}
+
+.card-foot {
+  flex-wrap: nowrap;
+}
+
+.card-foot .card-cat {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hv,
+.cat-vials,
+.gallery-img {
+  mix-blend-mode: normal;
+}
+
+@media (max-width: 560px) {
+  .card-foot {
+    flex-direction: row;
+    align-items: center;
+  }
+}

@@ -65,26 +65,8 @@ export default async function ProductPage({ params }: { params: Promise<{ sku: s
             <Price cents={product.priceCents} className="price-xl" />
             <p className="pdp-desc">{product.description}</p>
             <BuyBox sku={product.sku} name={product.name} size={product.size} priceCents={product.priceCents} />
-            <ul className="mini-trust">
-              <li>
-                <Icon name="vial" size={20} />
-                <span>Sealed glass vial</span>
-              </li>
-              <li>
-                <Icon name="thermo" size={20} />
-                <span>Store at −20 °C</span>
-              </li>
-              <li>
-                <Icon name="doc" size={20} />
-                <span>COA not on demo</span>
-              </li>
-            </ul>
-            <div className="fineprint">
-              <p>Demo catalog. Not a live store. No orders are placed.</p>
-              <p>For laboratory research use only. Not for human consumption.</p>
-            </div>
             <div className="accordion accordion-pdp">
-              <details open>
+              <details>
                 <summary>
                   Specifications
                   <Icon name="plus" size={18} />
@@ -103,6 +85,7 @@ export default async function ProductPage({ params }: { params: Promise<{ sku: s
                   Storage and handling
                   <Icon name="plus" size={18} />
                 </summary>
+                <p>Sealed glass vial. Store at −20 °C.</p>
                 <p>
                   Keep the vial sealed and frozen at −20 °C, away from light and moisture. Let it reach room
                   temperature before opening to limit condensation. Handle with gloves in a laboratory setting.
@@ -127,6 +110,10 @@ export default async function ProductPage({ params }: { params: Promise<{ sku: s
                   Sold as a research material for qualified laboratories. No use instructions or amounts are given.
                   See the <Link href="/research-use">research use policy</Link>.
                 </p>
+                <div className="fineprint">
+                  <p>Demo catalog. Not a live store. No orders are placed.</p>
+                  <p>For laboratory research use only. Not for human consumption.</p>
+                </div>
               </details>
             </div>
           </div>
@@ -141,7 +128,7 @@ export default async function ProductPage({ params }: { params: Promise<{ sku: s
               View all products
             </Link>
           </div>
-          <div className="grid">
+          <div className="grid rail rail-always">
             {related.map((item) => (
               <ProductCard key={item.sku} item={item} />
             ))}

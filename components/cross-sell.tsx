@@ -1,6 +1,6 @@
 "use client";
 
-import { getCategory, products } from "../data/catalog";
+import { products } from "../data/catalog";
 import { useCart } from "../lib/cart";
 import { Icon } from "./icons";
 import { Price } from "./price";
@@ -17,7 +17,7 @@ export function CrossSell() {
       <ul>
         {picks.map((p) => (
           <li key={p.sku}>
-            <span className="thumb" style={{ background: getCategory(p.category).tint }}>
+            <span className="thumb glow">
               <Vial sku={p.sku} name={p.name} />
             </span>
             <span className="xsell-name">
