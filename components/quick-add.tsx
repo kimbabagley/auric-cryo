@@ -25,7 +25,7 @@ export function QuickAdd({ sku, name }: { sku: string; name: string }) {
       }}
     >
       <Icon name={done ? "check" : "plus"} size={18} />
-      <span>{done ? "Added" : "Add"}</span>
+      <span className="sr-only">{done ? "Added" : "Add"}</span>
     </button>
   );
 }

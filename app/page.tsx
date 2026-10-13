@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Icon } from "../components/icons";
-import type { IconName } from "../components/icons";
 import { ProductCard } from "../components/product-card";
 import { Vial } from "../components/vial";
 import { categories, products } from "../data/catalog";
@@ -13,13 +12,6 @@ const heroVials = [
   { sku: "AC-SEL-10", name: "Selank", cls: "hv-5" },
 ];
 
-const trust: { icon: IconName; text: string }[] = [
-  { icon: "flask", text: "Third-party tested on this demo: COA not included" },
-  { icon: "shield", text: "Research use only" },
-  { icon: "box", text: "Ships from a demo warehouse — not real" },
-  { icon: "tag", text: "Every price is marked DEMO" },
-];
-
 const faq = [
   ["Is this a real store?", "No. Auric Cryo is a demo storefront. You can browse, fill a cart and walk the checkout, but no order is placed and nothing ships."],
   ["Can I pay for an order?", "No. Payment is not connected. The checkout stops at a disabled payment step and there is no card form anywhere on the site."],
@@ -30,7 +22,7 @@ const faq = [
 export default function HomePage() {
   return (
     <main>
-      <section className="hero">
+      <section className="hero hero-navy">
         <div className="container hero-grid">
           <div className="hero-copy">
             <h1>Research peptides, sealed and catalogued.</h1>
@@ -39,10 +31,10 @@ export default function HomePage() {
               it should be stored.
             </p>
             <div className="hero-ctas">
-              <Link href="/catalog" className="btn btn-primary btn-lg">
+              <Link href="/catalog" className="btn btn-light">
                 Shop all peptides
               </Link>
-              <Link href="/research-use" className="btn btn-ghost btn-lg">
+              <Link href="/research-use" className="hero-link">
                 Research use policy
               </Link>
             </div>
@@ -59,8 +51,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="hero-stage">
-            <p className="stage-chip">Eight vials, 5 to 50 mg each</p>
-            <div className="stage-floor" aria-hidden="true" />
+                        <div className="stage-floor" aria-hidden="true" />
             <div className="stage-row" aria-hidden="true">
               {heroVials.map((v) => (
                 <div key={v.sku} className={`hv ${v.cls}`}>
@@ -72,16 +63,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="trust" aria-label="Store facts">
-        <ul className="container trust-list">
-          {trust.map((t) => (
-            <li key={t.text}>
-              <Icon name={t.icon} size={22} />
-              <span>{t.text}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
 
       <section className="section">
         <div className="container">
@@ -91,11 +72,11 @@ export default function HomePage() {
               View all products
             </Link>
           </div>
-          <div className="cats">
+          <div className="cats rail">
             {categories.map((c) => {
               const pair = products.filter((p) => p.category === c.slug);
               return (
-                <Link key={c.slug} href={`/catalog/?c=${c.slug}`} className="cat" style={{ background: c.tint }}>
+                <Link key={c.slug} href={`/catalog/?c=${c.slug}`} className="cat glow">
                   <span className="cat-text">
                     <span className="cat-name">{c.label}</span>
                     <span className="cat-blurb">{c.blurb}</span>

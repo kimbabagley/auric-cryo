@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useCart } from "../lib/cart";
 import { Icon } from "./icons";
 import { SearchDialog } from "./search-dialog";
+import { Announce } from "./announce";
 
 const links = [
   { href: "/catalog", label: "Shop" },
@@ -50,9 +51,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <div className="announce">
-        <p>Demo storefront: nothing ships and no payment is taken.</p>
-      </div>
+      <Announce />
       <header className="header">
         <div className="container header-inner">
           <Logo />

@@ -22,8 +22,8 @@ export function Gallery({ sku, name, tint, size }: { sku: string; name: string; 
   return (
     <div className="gallery">
       <div
-        className={`gallery-main view-${view}`}
-        style={{ background: tint }}
+        className={`gallery-main glow view-${view}`}
+        data-tint={tint}
         onMouseMove={view === "coa" ? undefined : move}
         onMouseLeave={() => setZoom(null)}
       >
@@ -46,10 +46,10 @@ export function Gallery({ sku, name, tint, size }: { sku: string; name: string; 
           <button
             key={v}
             type="button"
-            className={`thumb-btn view-${v}`}
+            className={`thumb-btn glow view-${v}`}
             aria-pressed={view === v}
             aria-label={v === "vial" ? "Full vial" : v === "label" ? "Label close-up" : "Certificate of analysis"}
-            style={{ background: tint }}
+            data-tint={tint}
             onClick={() => setView(v)}
           >
             {v === "coa" ? <span className="thumb-coa">COA</span> : <Vial sku={sku} name="" />}
