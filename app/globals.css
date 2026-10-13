@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #f6f1e8;
+  color: #1a1814;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-plex), "IBM Plex Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a,
+a:visited {
+  color: #1a1814;
+}
+
+:focus-visible {
+  outline: 2px solid #8a6a2f;
+  outline-offset: 2px;
+}
+
+.bar {
+  background: #8a6a2f;
+  color: #1a1814;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 0.3rem 1rem;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f6f1e8;
+  border-bottom: 1px solid #8a6a2f;
+}
+
+.header-inner,
+.nav,
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.header-inner {
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  padding: 0.75rem 1rem;
+}
+
+.nav {
+  gap: 0.75rem 1.25rem;
+  font-size: 16px;
+}
+
+.wordmark {
+  font-family: var(--font-fraunces), Fraunces, serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+main {
+  padding: 1.25rem 1rem 3rem;
+}
+
+h1 {
+  font-family: var(--font-fraunces), Fraunces, serif;
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.15;
+  margin: 0 0 0.75rem;
+}
+
+p {
+  margin: 0 0 0.75rem;
+}
+
+.catalog {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.row {
+  gap: 0.5rem 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #8a6a2f;
+}
+
+.row a {
+  font-family: var(--font-fraunces), Fraunces, serif;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.notice {
+  margin-top: 1.25rem;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  font-size: 16px;
+  color: #1a1814;
+  background: #f6f1e8;
+  border: 1px solid #8a6a2f;
+}
+
+button,
+input {
+  min-height: 2.75rem;
+  padding: 0.4rem 0.7rem;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  max-width: 28rem;
+  min-height: 7rem;
+  padding: 0.6rem 0.7rem;
+}
+
+label {
+  display: block;
+  margin: 0 0 0.85rem;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: #f6f1e8;
+  color: #1a1814;
+  padding: 2rem 1rem;
+}
+
+form {
+  margin-top: 1rem;
+}
