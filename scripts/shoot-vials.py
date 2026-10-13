@@ -75,8 +75,8 @@ def make_label(name: str, size: str, note: str, kind: str) -> Image.Image:
         draw.text((x, y), text, font=face, fill=fill)
 
     center("AURIC", font(SANS, 28), 48, mute)
-    name_px = 72 if len(name) <= 8 else 52
-    center(name, font(SERIF, name_px), 168, ink)
+    name_px = 64 if len(name) <= 8 else 44
+    center(name, font(SANS_BOLD, name_px), 188, ink)
     y = 280
     if note:
         center(note, font(SERIF, 36), y, ink)
@@ -112,22 +112,6 @@ def render(sku: str, name: str, size: str, kind: str) -> Image.Image:
     br = np.where(cake, cake_tone, br)
     bg = np.where(cake, cake_tone + 1, bg)
     bb = np.where(cake, cake_tone + 3, bb)
-
-    label = np.asarray(make_label(name, size, NOTES.get(sku, ""), kind)).astype(np.float32)
-    lh, lw = label.shape[:2]
-    face = glass & (y > 430) & (y < 980) & (np.abs(rel) < 0.78) & (dist > 8)
-    u = (rel / 0.78 + 1.0) * 0.5
-    v = (y - 430.0) / (980.0 - 430.0)
-    ui = np.clip((u * (lw - 1)).astype(np.int32), 0, lw - 1)
-    vi = np.clip((v * (lh - 1)).astype(np.int32), 0, lh - 1)
-    sampled = label[vi, ui]
-    wrap = 0.82 + 0.18 * (1.0 - rel**2)
-    tint = sampled[:, :, :3] * wrap[:, :, None]
-    plate = (sampled[:, :, 3] / 255.0) * face
-    br = br * (1 - plate) + tint[:, :, 0] * plate
-    bg = bg * (1 - plate) + tint[:, :, 1] * plate
-    bb = bb * (1 - plate) + tint[:, :, 2] * plate
-
     rgb = np.dstack([br, bg, bb])
 
     # Crimp seen from just above: an ellipse, then a short aluminum skirt.
@@ -157,6 +141,9 @@ def render(sku: str, name: str, size: str, kind: str) -> Image.Image:
     mask = Image.fromarray((np.clip(alpha, 0, 1) * 255).astype(np.uint8), "L")
     cut = image.convert("RGBA")
     cut.putalpha(mask)
+    label = make_label(name, size, NOTES.get(sku, ""), kind)
+    label.thumbnail((340, 500))
+    cut.alpha_composite(label, (int(CX - label.width / 2), 470))
 
     shadow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     ImageDraw.Draw(shadow).ellipse((CX - 150, 1088, CX + 150, 1136), fill=(20, 24, 31, 70))
