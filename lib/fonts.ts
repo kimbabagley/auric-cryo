@@ -1,15 +1,14 @@
-import { Fraunces, IBM_Plex_Sans } from "next/font/google";
+import { Geist, Instrument_Sans } from "next/font/google";
 
-export const fraunces = Fraunces({
+export const display = Instrument_Sans({
   subsets: ["latin"],
-  weight: "600",
-  variable: "--font-fraunces",
+  axes: ["wdth"],
+  variable: "--font-display",
   display: "swap",
 });
 
-export const plex = IBM_Plex_Sans({
+export const ui = Geist({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-plex",
+  variable: "--font-ui",
   display: "swap",
 });

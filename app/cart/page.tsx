@@ -1,15 +1,18 @@
-import { CartView } from "../../components/cart-view";
+import type { Metadata } from "next";
+import { CartPage } from "../../components/cart-page";
 
-export default function CartPage() {
+export const metadata: Metadata = { title: "Cart" };
+
+export default function Cart() {
   return (
-    <main>
-      <h1>Cart</h1>
-      <p>For laboratory research use only. Not for human consumption.</p>
-      <p>This cart stays in this browser. No order is placed.</p>
-      <CartView />
-      <button type="button" disabled>
-        Checkout disabled on this demo.
-      </button>
+    <main className="section page-top">
+      <div className="container">
+        <div className="page-head">
+          <h1>Your cart</h1>
+          <p className="fine">For laboratory research use only. Not for human consumption.</p>
+        </div>
+        <CartPage />
+      </div>
     </main>
   );
 }
